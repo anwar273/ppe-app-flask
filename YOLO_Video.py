@@ -3,8 +3,13 @@ import torch
 import torchvision
 import math
 from ultralytics import YOLO
+import pygame  # Import pygame for playing sound
 
 def video_detection(path_x):
+    # Initialize pygame mixer for sound
+    pygame.mixer.init()
+    alert_sound = pygame.mixer.Sound('emergency-siren-alert-single-epic-stock-media-1-00-01.mp3')  # Replace with the path to your sound file
+
     # Check if CUDA is available and use GPU if possible
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -12,12 +17,11 @@ def video_detection(path_x):
     print(f"Using device: {device}")
 
     cap = cv2.VideoCapture(path_x)
-    
+
     if not cap.isOpened():
         raise ValueError(f"Error opening video file: {path_x}")
 
-    # Load the YOLOv3 model
-    #model = torchvision.models.detection.fasterrcnn_resnet50_fpn(pretrained=True)
+    # Load the YOLO model
     model = YOLO('best8.pt')
 
     # Class names and colors for each class
@@ -56,6 +60,9 @@ def video_detection(path_x):
             # Perform inference
             results = model(img_tensor)
 
+            # Flag to check if PPE-related objects are detected
+            ppe_detected = False
+
             # Process the detections
             for r in results:
                 boxes = r.boxes
@@ -67,6 +74,9 @@ def video_detection(path_x):
 
                     if cls_index in classNames:
                         class_name = classNames[cls_index]
+                        if class_name in ['Hardhat', 'Mask', 'Safety Vest']:
+                            ppe_detected = True
+
                         label = f'{class_name} {conf:.2f}'
                         color = colors[class_name]
 
@@ -74,9 +84,13 @@ def video_detection(path_x):
                         cv2.rectangle(img_resized, (x1, y1), (x2, y2), color, 2)
                         cv2.putText(img_resized, label, (x1, y1 - 2), cv2.FONT_HERSHEY_SIMPLEX, 0.9, color, 2)
 
+            # Play sound if no PPE is detected
+            if not ppe_detected:
+                pygame.mixer.Sound.play(alert_sound)
+
             # Yield the processed frame with detections
             yield img_resized
 
     finally:
         cap.release()
-
+        pygame.mixer.quit()
