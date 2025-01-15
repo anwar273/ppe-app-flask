@@ -32,8 +32,8 @@ Ensure the following are installed on your system:
 
 1. **Clone the Repository**:
    ```bash
-   git clone [<repository-url>](https://github.com/anwar273/ppe-app-flask
-   cd <ppe-app-flask
+   git clone https://github.com/anwar273/ppe-app-flask
+   cd ppe-app-flask
    ```
 
 2. **Set Up a Virtual Environment**:
