@@ -45,7 +45,7 @@ def generate_frames(path_x=''):
 @app.route('/home', methods=['GET', 'POST'])
 def home():
     session.clear()
-    return render_template('index-project.html')
+    return render_template('index_project.html')
 
 
 @app.route('/webcam')
@@ -63,7 +63,7 @@ def front():
                                secure_filename(file.filename)))
         session['video_path'] = os.path.join(os.path.abspath(os.path.dirname(__file__)), app.config['UPLOAD_FOLDER'],
                                              secure_filename(file.filename))
-    return render_template('video-poject.html', form=form)
+    return render_template('video_project.html', form=form)
 
 
 @app.route('/video')
