@@ -123,10 +123,10 @@ This project is licensed under the MIT License. See the LICENSE file for details
 ---
 
 ## Contributors
-- **Your Name**: [Your GitHub](https://github.com/your-profile)
+- **Your Name**: [Your GitHub](https://github.com/anwar273)
 
 ---
 
 ## Support
-For any issues, please open a GitHub issue or contact [your-email@example.com].
+For any issues, please open a GitHub issue or contact quibane40@gmail.com.
 
