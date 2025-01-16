@@ -1,7 +1,6 @@
 Flask
 flask-wtf
 Werkzeug
-PyTorch
 torchvision
 opencv-python
 ultralytics
